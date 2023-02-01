@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
 
-from quart import Blueprint, request, current_app as app, jsonify
+from quart import Blueprint, request, jsonify
 from logbook import Logger
 
 from litecord.blueprints.auth import token_check
@@ -59,7 +59,12 @@ from litecord.common.messages import (
 )
 from litecord.common.interop import message_view
 from litecord.pubsub.user import dispatch_user
+from litecord.typing_hax import app
 
+if TYPE_CHECKING:
+    from litecord.typing_hax import app, request
+else:
+    from quart import current_app as app, request
 
 log = Logger(__name__)
 bp = Blueprint("channel_messages", __name__)

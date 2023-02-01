@@ -16,9 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
+from typing import TYPE_CHECKING
 
-from quart import request
-
+if TYPE_CHECKING:
+    from litecord.typing_hax import app, request
+else:
+    from quart import current_app as app, request
 
 def guild_view(guild_data: dict) -> dict:
     # Do all the below if applicable

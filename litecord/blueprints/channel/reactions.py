@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from enum import IntEnum
-from typing import List, Union, Tuple, TypedDict, Optional
+from typing import List, Union, Tuple, TypedDict, Optional, TYPE_CHECKING
 
-from quart import Blueprint, request, current_app as app, jsonify
+from quart import Blueprint, request, jsonify
 from logbook import Logger
 from emoji import EMOJI_DATA
 
@@ -33,6 +33,10 @@ from litecord.common.messages import PLAN_ID_TO_TYPE
 from litecord.enums import GUILD_CHANS
 from litecord.enums import PremiumType
 
+if TYPE_CHECKING:
+    from litecord.typing_hax import app, request
+else:
+    from quart import current_app as app, request
 
 log = Logger(__name__)
 bp = Blueprint("channel_reactions", __name__)

@@ -17,7 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-from quart import Blueprint, current_app as app, jsonify
+from quart import Blueprint, jsonify
+from typing import TYPE_CHECKING
 
 from litecord.auth import token_check
 from litecord.blueprints.checks import channel_check, channel_perm_check
@@ -27,6 +28,11 @@ from litecord.system_messages import send_sys_message
 from litecord.enums import MessageType, SYS_MESSAGES
 from litecord.errors import BadRequest
 from litecord.common.interop import message_view
+
+if TYPE_CHECKING:
+    from litecord.typing_hax import app, request
+else:
+    from quart import current_app as app, request
 
 bp = Blueprint("channel_pins", __name__)
 

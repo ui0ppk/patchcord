@@ -19,10 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 
-from typing import List, Optional
+from typing import List, Optional, Coroutine, TYPE_CHECKING
 from collections import defaultdict
 
-from quart import current_app as app
 from websockets.exceptions import ConnectionClosed
 from logbook import Logger
 
@@ -30,6 +29,10 @@ from litecord.gateway.state import GatewayState
 from litecord.gateway.opcodes import OP
 from litecord.enums import Intents
 
+if TYPE_CHECKING:
+    from litecord.typing_hax import app, request
+else:
+    from quart import current_app as app, request
 
 log = Logger(__name__)
 
@@ -204,7 +207,7 @@ class StateManager:
         except ConnectionClosed:
             log.info("client {} already closed", state)
 
-    def gen_close_tasks(self):
+    def gen_close_tasks(self) -> List[Coroutine]:
         """Generate the tasks that will order the clients
         to reconnect.
 
